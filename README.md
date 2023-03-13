@@ -309,6 +309,132 @@ Simulation output looks as follows:
 <p align="center"><img src="/Images/Day-3/Labs/sim_output.png"/></p>
 <br>
 
+### Part-2 | DRC checks using Magic
+
+- In Magic, regions exhibitng DRC violations are shown as covered in white dots.
+- Selecting an area on the magic layout followed by querying 'drc why' on the console shows the reason behind all violations in the given region. An example in 'met3.mag' is shown below:
+
+<p align="center"><img src="/Images/Day-3/Labs/drc_met3.png"/></p>
+
+- One can use 'cif see' to see implanted layers on the GUI. Below diagram shows one example of this. Further, I have queried spacing between via and metal boundary by creating a box and querying its dimensions. This distance is larger than the design rule given in sky130A.tech.
+
+<p align="center"><img src="/Images/Day-3/Labs/cif_see.png"/></p>
+
+- **Fixing violations:** Given tech file is missing a design rule which governs spacing between polyres and poly layers. I added this design rule to the tech file and re-checked for DRC violations. Following violation was now seen in the console which was earlier absent:
+
+<p align="center"><img src="/Images/Day-3/Labs/drc_poly_fix.png"/></p>
+
+## Day-4: STA and CTS | Theory
+
+### Part -1 | STA fundamentals:
  
+ ### Introduction
+ 
+All real cells have finite **propagation delays**. This can be found from the dotLIB file of a cell, which contains propagation delay value for several combinations of **input_slew** and **output_load**.
+ 
+**Static Timing Analysis(STA)** is a method used in digital circuit design to ensure that the circuit meets its timing requirements. Timing requirements are critical in digital circuit design because if the signals do not arrive at the right time, errors can occur, and the circuit may not function as intended.
+
+Timing requirements can mainly be required in two categories:
+- **Setup requirement:** Setup requirement refers to a timing requirement that ensures that the input signal to a flip-flop is stable for a specified amount of time before the clock edge that triggers that flip-flop.
+- **Hold requirement:** Hold requirement refers to a timing requirement that ensures that the output signal to a flip-flop remains stable for a specified amount of time after the clock edge that triggers that flip-flop.
+
+#### Setup analysis:
+
+- Consider a launch flop sending data through a combintaional circuit to the capture flop.
+- In a highly simplified scenario with ideal clocks and ideal flops, it should be easy to see that delay of the combinational circuit must be less than the time period of the clock in order to meet setup requirement. Otherwise, capture flop will sample data before correct signal has reached the input pin. Therefore,
+
+```math
+\theta < T
+```
+<p align="center">where, T = Time period of the clock</p>
+<p align="center">       $\theta$ = total delay in combinational circuit</p>
+
+- If we relax the flops to be non-ideal, they will have non-zero setup time. Then output signal from launch flop must reach at least setup time before the second clock tick. Therefore,
+
+```math
+\theta < T - S
+```
+<p align="center">       S = Setup time of capture flop</p>
+
+- Clock period can have some uncertainity. Accounting for that,
+
+```math
+\theta < T - S - SU
+```
+
+<p align="center">       SU = Setup uncertainity of clock</p>
+
+- If clock network is non-ideal, clock can reach the launch and capture flops at different times. Hence, **final setup requirement** will become:
+
+```math
+(\theta + \delta_{launch}) < (T + \delta_{capture}) - S - SU
+```
+<p align="center">where, T = Time period of the clock</p>
+<p align="center">       $\theta$ = total delay in combinational circuit</p>
+<p align="center">       S = Setup time of capture flop</p>
+<p align="center">       SU = Uncertainity of clock time period for setup analysis</p>
+<p align="center">       \delta_{launch} = Delay from clock port to clock pin of launch flop</p>
+<p align="center">       \delta_{capture} = Delay from clock port to clock pin of capture flop</p>
+
+- **Slack**, defined as difference between data required time and data arrival time at capture flop must always be positive.
+
+#### Hold analysis
+
+- Consider a launch flop sending data through a combintaional circuit to the capture flop.
+- In a simplified scenario with ideal clocks, the delay of combinational circuit must be greater than hold time for capure flop. If that is not the case, data will reach capture flop before its hold time is met, and metastability will occur.
+
+```math
+\theta > H
+```
+<p align="center">where, H = Hold time of capture flop</p>
+<p align="center">       $\theta$ = total delay in combinational circuit</p>
+
+- Introducing non-ideal clock network and a small amout of hold uncertainity, the **final hold requirement** will become:
+
+```math
+(\theta + \delta_{launch}) < (T + \delta_{capture}) + HU
+```
+<p align="center">where, H = Hold time of capture flop</p>
+<p align="center">       $\theta$ = total delay in combinational circuit</p>
+<p align="center">       HU = Hold uncertainity</p>
+<p align="center">       \delta_{launch} = Delay from clock port to clock pin of launch flop</p>
+<p align="center">       \delta_{capture} = Delay from clock port to clock pin of capture flop</p>
+
+- **Slack**, defined as difference between data arrival time and data required time at capture flop must always be positive.
+
+### Part -2 | Clock Tree Synthesis (CTS):
+
+#### Introduction
+
+**Clock Tree Synthesis (CTS)** is the process of designing clock distribution network from the clock port to sequential pins. The clock distribution network contains mainly of clock buffers and clock gates.
+
+CTS becomes mandatory because a single clock port cannot drive all sequential pins inside a design. Further CTS should achieve following goals:
+1. Clock should reach all sequential pins at the same time i.e., there should be **minimal skew**.
+2. Variation in clock period, called **jitter**, should be minimal
+
+These requirements are better met if clock tree has following **properties**:
+1. Each layer should have same buffer cells
+2. Each cell should drive the same load
+
+#### CTS algorithm | H-tree algorithm
+
+In order to minimize skew, clock nets are not laid in an unorderly fashion. Rather, it is ensured that the parent branch of the clock net intersects the child branch at its midpoint. 
+When this is ensured for all branches:
+1. Each sequential pin is equidistant from the clock port and all sequential pins see the same clock delay.
+2. Resultant routing structure looks like the letter "H", hence giving the algorithm its name
+
+**Repeaters** are added to long branches to ensure signal integrity. It is attempted that equal number of repeaters lie between the clock port and each sequential clock pin. Clock repeaters have the special proprty that their rise and fall times are equal.
+
+#### Crosstalk and clock net shielding
+
+**Crosstalk** is the phenomena wherein state changes on an aggressor net can induce glitches or delays in a nearby victim net. This happens because capacitances of nearby nets are coupled with each other.
+
+**Clock Tree Shielding:** 
+Clock nets are extremely sensitive to glitches. A single glitch on clock net can corrupt functioning of the circuit.
+In order to avoid glitches on clock nets due to crosstalk, they are surrounded by power or ground nets which do not toggle. This process of protecting clock tree from crosstalk is called **Clock net shielding**.
+
+## Day-4 | Labs
+
+
 
 
