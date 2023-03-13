@@ -156,7 +156,7 @@ After floorplan run is complete, a floorplan DEF wil be generated in <run_tag>/r
  ```
  magic -T <path_to_tech_file> lef read <path_to_merged_lef> def read <path_to_floorplan_def>
  ```
- Standard cells are not placed inside floorplan DEF and standard cell rows are defined. The final DEF look like this in magic:
+ Standard cells are not placed inside floorplan DEF but standard cell rows have been defined. The final DEF look like this in magic:
  <p align="center"> <img src="/Images/Day-2/Labs/fp_def_magic.png"/></p>
  
  ### Placement
@@ -172,6 +172,53 @@ After floorplan run is complete, a floorplan DEF wil be generated in <run_tag>/r
 
  You can see that all standard cells have been placed at fixed locations inside this DEF.
   
-## Day-3 | 
+## Day-3 : Inverter characterization , CMOS fabrication process and DRC/LVS | Theory
   
- 
+  ### Part -1 | Inverter characterization
+  
+  #### Slew and slew characteization
+  
+  **Rise slew:** Time taken by a signal to transition from LOW state to HIGH state is called rise slew.
+  **Fall slew:** Time taken by a signal to transition from HIGH state to LOW state is called fall slew.
+  
+  **Calculation of slew**: We need two points on a rising/falling signal waveform to determine its slew. Slew can be calculated by taking the time difference between these two points. These points are defined as follows:
+  
+  - **slew_low_rise_threshold:** Bottom point (lying close to 0V) sampled for slew calculation on a rising waveform. Usually set to **20% of VDD**.
+  - **slew_high_rise_threshold:** Top point (lying close to VDD) sampled for slew calculation on a rising waveform. Usually set to **80% of VDD**.
+  - **slew_low_fall_threshold:** Bottom point (lying close to 0V) sampled for slew calculation on a falling waveform. Usually set to **20% of VDD**.
+  - **slew_high_fall_threshold:** Top point (lying close to VDD) sampled for slew calculation on a falling waveform. Usually set to **80% of VDD**.
+
+Given these definitions, rise slew of a signal is:
+
+```math
+rise\_slew = time_{slew\_high\_rise\_threshold} - time_{slew\_high\_rise\_threshold}
+```
+and fall slew is:
+```math
+fall\_slew = time_{slew\_low\_fall\_threshold} - time_{slew\_high\_fall\_threshold}
+```
+  #### Delay and delay characteization
+  
+  **Propagation delay:** Propagation delay of a cell is the time difference between output pin transition and input pin transition.
+  
+  To calculate propagation delay, we need to define following terms:
+  
+  - **in_rise_threshold:** Input rising waveform is sampled at this point for delay calculation. Usually set to **50% of VDD**.
+  - **in_fall_threshold:** Input falling waveform is sampled at this point for delay calculation. Usually set to **50% of VDD**.
+  - **out_rise_threshold:** Output rising waveform is sampled at this point for delay calculation. Usually set to **50% of VDD**.
+  - **out_fall_threshold:** Output falling waveform is sampled at this point for delay calculation. Usually set to **50% of VDD**.
+
+Given this, propagation delay of a cell can be calulated using following formula:
+```math
+time_{pd} = time_{out\_\*\_threshold} - time_{in\_\*\_threshold}
+```
+
+**Note:**  
+- Rise delay of a cell implies delay when output is rising and fall delay implies delay when output is falling
+- If delay thresholds are not properly chosen, one can see negative delay values. Care should be taken in determining thresholds.
+
+   #### Switching margin:
+   
+   Switching margin (`V_m`) is the output voltage of a circuit when it is equal to the input voltage.
+
+
