@@ -241,20 +241,40 @@ time_{pd} = time_{out\_*\_threshold} - time_{in\_*\_threshold}
 
 1. Substrate preparation
 2. Creation of active region for transistors:
-   a. Layer of SiO2 and Si3N4 is created over the wafer
-   b. Using photolithography and etching, Si3N4 is etched away from boundary of nMOS and pMOS regions.
-   c. SiO2 layer at boudaries is thickened using LOCOS (LOCal Oxidation of Silicon)
-   d. Remaining Si3N4 is removed using hot Phosphoric acid
+   - Layer of SiO2 and Si3N4 is created over the wafer
+   - Using photolithography and etching, Si3N4 is etched away from boundary of nMOS and pMOS regions.
+   - SiO2 layer at boudaries is thickened using **LOCOS (LOCal Oxidation of Silicon)**
+   - Remaining Si3N4 is removed using hot Phosphoric acid
 3. N-well and P-well formation
-   a. Using photolithography and ion-implantaion, impurities are added to selective sites of the substrate in order to create n-well and p-well
-   b. Chip is heated at hgh temperatures for well diffusion to occur. This deepens the well.
+   - Using photolithography and ion-implantaion, impurities are added to selective sites of the substrate in order to create n-well and p-well
+   - Chip is heated at hgh temperatures for well diffusion to occur. This deepens the well.
 4. Formation of Gate:
-   a. To ensure correct doping concenterations, diffused n-well/p-well is again doped using ion implantation. Correct doping concenteration is necessary to obtain correct threshold voltage
-   b. Layer of polysilicon is deposited over wafer. 
-   c. Using photolithography, poly is etched away from entire surface except from the sites of Gate formation.
+   - To ensure correct doping concenterations, diffused n-well/p-well is again doped using ion implantation. Correct doping concenteration is necessary to obtain correct threshold voltage
+   - Layer of polysilicon is deposited over wafer. 
+   - Using photolithography, poly is etched away from entire surface except for the sites of Gate formation.
 5. Lightly Doped Drain formation:
-6.  
-  
+   - Doped concenteration should gradually change between diffusion and Source/Drain region in order to prevent **hot electron effect** and **short channel effect**. Doping concenteration should be p+, p-, n for a pMOS and n+, n-, p for a nMOS.
+   - Ion implantation is done to create lightly doped Source/Drain region (p- and n- doping for pMOS and nMOS respectively)
+   - **Plasma anisotropic etching** is used to create side wall spacers of Si3N4
+6. Source and drain formation:
+   - Thin layer of SiO2 (called screen oxide) is added to prevent channeling during through lightly doped regions during ion implantation.
+   - Ion implnatation is done to make heavily doped source and drain regions
+   - Annealing is done is a high temperature furnace to push doping atoms deeper. 
+7. Local Interconnect (locali) formation:
+   - Screen oxide is removed by etching with HF.
+   - Titanium is sputtered over the wafer, which is heated to 650-700 celsius in N2 ambient
+   - TiSi2 is formed where Ti in in touch with Silicon. Layer of TiN2 is formed above it.
+   - Using photolithography and RCA based selective etching, excess TiN2 is removed till only TiN2 local interconnects are left.
+8. Higher level metal formation:
+   - Non-planar surface is not suitable for metal deposition.
+   - Wafer is covered with **phosphosilicate glass** and polished using **Chemical Mechanical Polishing (CMP)**.
+   - Photolithography is done to remove phosphosilicate glass from places where holes need to be drilled for contact formation.
+   - Tungsten is deposited over entire wafer and CMP is done till only Tungsten filled holes remain.
+   - Folllowing that Al is deposited over entire surface and photolithography is done to remove extra Al.
+   - Multiple layers of SiO2, TiN2, Tungsten and ALuminium are deposited and etched in a similar fashion to create higher metal layers.
+   - Finally, chip is coated with Si3N4 for protection and holes are drilled to make final contacts of CMOS.
+
+<img src="/Images/Day-3/Theory/cmos_fabricated_final.png" alt="Final view of a CMOS fabricated using 16-mask process" />
 
 
  
