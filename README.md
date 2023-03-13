@@ -223,7 +223,11 @@ time_{pd} = time_{out\_*\_threshold} - time_{in\_*\_threshold}
  
  ### Part-2 | 16 mask CMOS farication process:
  
- CMOS fabrication is a highly detailed process involving several process and steps. These are described in brief below:
+<br>
+<p align="center">Final view of a CMOS fabricated using 16-mask process</p>
+<p align="center"><img src="/Images/Day-3/Theory/cmos_fabricated_final.png"/></p>
+ 
+CMOS fabrication is a highly detailed process involving several process and steps. These are described in brief below:
  
 #### Steps:
 
@@ -262,9 +266,6 @@ time_{pd} = time_{out\_*\_threshold} - time_{in\_*\_threshold}
    - Multiple layers of SiO2, TiN2, Tungsten and ALuminium are deposited and etched in a similar fashion to create higher metal layers.
    - Finally, chip is coated with Si3N4 for protection and holes are drilled to make final contacts of CMOS.
 
-<br>
-<p align="center">Final view of a CMOS fabricated using 16-mask process</p>
-<p align="center"><img src="/Images/Day-3/Theory/cmos_fabricated_final.png"/></p>
  
 ### Part-3 | CMOS inverter layout and DRC 
 
@@ -307,7 +308,6 @@ plot y vs time a vs time
 ```
 Simulation output looks as follows:
 <p align="center"><img src="/Images/Day-3/Labs/sim_output.png"/></p>
-<br>
 
 ### Part-2 | DRC checks using Magic
 
@@ -323,6 +323,7 @@ Simulation output looks as follows:
 - **Fixing violations:** Given tech file is missing a design rule which governs spacing between polyres and poly layers. I added this design rule to the tech file and re-checked for DRC violations. Following violation was now seen in the console which was earlier absent:
 
 <p align="center"><img src="/Images/Day-3/Labs/drc_poly_fix.png"/></p>
+<br>
 
 ## Day-4: STA and CTS | Theory
 
