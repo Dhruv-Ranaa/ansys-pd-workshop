@@ -110,7 +110,7 @@ OpenLANE is an open-source automated RTL-to-GDSII (register transfer level to gr
  ### What is powerplanning?
  **Power planning** is done to ensure that each block of the chip has access to a stable and reliable power supply. Power and ground pin locations are determined.
  
- #### Importnant terminology related to powerplanning
+ #### Important terminology related to powerplanning
  
  **Voltage drop:** Voltage drop is an incident wherein power supplied at an instance's power pin can fall below supply voltage because to intervening RC circuit. If this drop is large, it can cross **noise margins** of the standard cell and impact correct funtioning of the chip.
  
@@ -121,7 +121,7 @@ OpenLANE is an open-source automated RTL-to-GDSII (register transfer level to gr
  ### What is placement?
  **Placement** is the process of assigning fixed locations to standard cells on the chip.  
  
- #### Factors determing good placement
+ #### Factors determining good placement
  
  The main goal of placement is to keep connected cells close to each other and also close to connected I/O ports.  
  This helps reduce wire cap during routing, which makes the circuit faster as well as reduces its power consumption. Shorter connections also help preserve signal integrity better.
@@ -204,7 +204,7 @@ time_{pd} = time_{out\_*\_threshold} - time_{in\_*\_threshold}
 ```
 
 **Note:**  
-- Rise delay of a cell implies delay when output is rising and fall delay implies delay when output is falling
+- Rise delay of a cell means delay when output is rising and fall delay means delay when output is falling
 - If delay thresholds are not properly chosen, one can see negative delay values. Care should be taken in determining thresholds.
 
 #### Switching margin:
@@ -440,17 +440,17 @@ In order to avoid glitches on clock nets due to crosstalk, they are surrounded b
 
 <p align="center"><img src="/Images/Day-4/Labs/write_lef.png"/></p>
 
-### Part-2 | Run synthesis and verify WNS and TNS using openSTA
+### Part-2 | Run synthesis 
 
 - Correct setup. CLOCK_PERIOD variable had different values in different files as shown below. Made them all equal to 12.00 ns so that errors/inconsistencies are avoided later.
 
 <p align="center"><img src="/Images/Day-4/Labs/clk_correction.png"/></p>
 
-- Run synthesis and verify our custom cell 'sky130_vsdinv' has been used in the netlist.
+- Add custome cell LEF to the design and run synthesis. Verify our custom cell 'sky130_vsdinv' has been used in the netlist.
 
 <p align="center"><img src="/Images/Day-4/Labs/syn_new.png"/></p>
 
-### Part-3 | Reduce slack by changing run parameters
+### Part-3 | Reduce slack by changing run parameters ; verify reduction using OpenSTA
 
 - Change ::env(SYNTH_STRATEGY) and ::env(SYNTH_SIZING) and observed impact on slack. For me, TNS reduced from -3242.97 ps to -407.96ps; WNS reduced from -26.67ps to -5.59ps
 
