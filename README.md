@@ -166,16 +166,12 @@ After floorplan run is complete, a floorplan DEF wil be generated in <run_tag>/r
  ```
  run_placement
  ```
+ 
+ A placement DEF is created in <run_tag>/results/placement directory. Viewed in magic, it looks something like this:
+ <p align="center"> <img src="/Images/Day-2/Labs/placement_def_magic.png"/></p>
 
+ You can see that all standard cells have been placed at fixed locations inside this DEF.
+  
+## Day-3 | 
   
  
- 
- 
-
-
-
-
-
-
-
-
