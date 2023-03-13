@@ -66,7 +66,6 @@ OpenLANE is an open-source automated RTL-to-GDSII (register transfer level to gr
  package require openlane 0.9
  prep -design <design_name> -tag <name_of_run_dir>
  ```
- <br>
  This will invoke openLANE as shown below:  
  
  <p align="center"> <img src="/Images/Day-1/Labs/Invoking_openLANE.png"/></p>
@@ -77,17 +76,97 @@ OpenLANE is an open-source automated RTL-to-GDSII (register transfer level to gr
   ```
   run_synthesis
   ```
-  <br>
-  run_synthesis generates teh netlist is <run_tag>/results/synthesis directory as shown below:
+  run_synthesis generates the synthesized netlist in <run_tag>/results/synthesis directory as shown below:
   <p align="center"> <img src="/Images/Day-1/Labs/synthesis.png"/></p>
-  <br>
   
   ### Analyzing synthesis results
   
   We can examine the cell stats of synthesized run from reports present in <run_tag>/reports/synthesis/ directory.
   Here, we have calculated flop ratio for the given design:
   
-  <p align="center"> <img src="/Images/Day-1/Labs/synthesis.png"/></p>
+  <p align="center"> <img src="/Images/Day-1/Labs/flop_ratio.png"/></p>
+  
+ ## Day-2: Floorplanning and Placement | Theory
+ 
+ ### What is floorplanning?
+ **Floorplanning** is the process of determining die area of the chip, placing macros and allocating areas for standard cell placement.  
+ 
+ A **die** can be divided into central **core** region for logic cells placement and a peripheral region. The core region is demarcated into different sections during floorplanning. Macros are placed in some sections while others are left for standard cell placement.  
+ 
+ **Target of floorplanning:** Lay down macros in suitable positions on the core based on timing and power considerations. For e.g., a macro frequently receivng data from input pins will be placed close to them as this will reduce delay and wire cap. All this needs to be done while leaving out sufficiently large contiguous blocks for standrad cell placement.
+ 
+ ### Important terminology related to floorplanning
+ 
+ **Utilisation factor:** 
+ Utilisation factor is defined as the ratio of area of netlist to the area of core of the die.
+ It determines the total core area based on the area occupied by netlist and is an important factor for generating a good floorplan. Usually, it's value is kept close to 50%. This leaves substantial space in the core for CTS and ECO changes.  
+ 
+ **Aspect ratio:**
+ It is the ratio of height of the core to the width of the core.
+ Aspect ratio determines the shape of a chip. Aspect ratio of 1 implies a square-shaped chip.
+ 
+ **Pre-placed cells:**
+ Pre-placed cells (PPCs) are cells that are placed in the core before the automated placement and routing process. 
+ These cells usually consists of **foundry IPs** and their location is fixed during floorplanning. It is not altered by placement tool.
+ 
+ **Decoupling capacitors:**
+ Decoupling capacitors help reduce noise and improve power supply performance. They work by temporarily storing electrical charge and then releasing it back into the circuit when needed.
+ Preplaced cells are surrounded by decoupling capacitors during floorplanning.
+ 
+ ### What is powerplanning?
+ **Power planning** is done to ensure that each block of the chip has access to a stable and reliable power supply. Power and ground pin locations are determined.
+ 
+ ### Importnant terinology related to powerplanning
+ 
+ **Voltage drop:**
+ Voltage drop is an incident wherein power supplied at an instance's power pin can fall below supply voltage because to intervening RC circuit. 
+ If this drop is large, it can cross **noise margins** of the standard cell and impact correct funtioning of the chip.
+ 
+ **Ground bounce:**
+ Ground bound is an incident wherein voltage at the ground pin of an instance can jump above 0V. 
+ Ground bounces can cause similar throw a cell off its noise margins and impact correct functioning of the chip.
+ 
+ Good powerplanning reduced the chances of voltage drop and ground bounce.
+ 
+ ### What is placement?
+ **Placement** is the process of assigning fixed locations to standard cells on the chip.  
+ 
+ ### Factors determing good placement
+ 
+ The main goal of placement is to keep connected cells close to each other and also close to connected I/O ports.  
+ This helps reduce wire cap during routing, which makes the circuit faster as well as reduces its power consumption. Shorter connections also help preserve signal integrity better.
+ 
+ **Abuttment** of connected cells is done to ensure good placement.
+ **Repeater buffers** are inserted to preserve signal integrity where connection lengths are long.
+ 
+## Day-2 : Floorplanning and Placement | Labs
+
+### Floorplanning
+
+Atomic command used to invoke floorplanning in openLANE:
+
+```
+run_floorplan
+```
+
+After floorplan run is complete, a floorplan DEF wil be generated in <run_tag>/results/floorplan directory, as shown below:
+ <p align="center"> <img src="/Images/Day-2/Labs/fp_def.png"/></p>
+ 
+ This DEF can be opened in Magic using following command:
+ ```
+ magic -T <path_to_tech_file> lef read <path_to_merged_lef> def read <path_to_floorplan_def>
+ ```
+ Standard cells are not placed inside floorplan DEF and standard cell rows are defined. The final DEF look like this in magic:
+ <p align="center"> <img src="/Images/Day-2/Labs/fp_def_magic.png"/></p>
+ 
+ ### Placement
+ 
+ Atomic command to invoke placement in openLANE:
+ 
+ ```
+ run_placement
+ ```
+
   
  
  
