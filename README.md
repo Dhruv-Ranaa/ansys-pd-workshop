@@ -210,15 +210,53 @@ fall\_slew = time_{slew\_low\_fall\_threshold} - time_{slew\_high\_fall\_thresho
 
 Given this, propagation delay of a cell can be calulated using following formula:
 ```math
-time_{pd} = time_{out\_\*\_threshold} - time_{in\_\*\_threshold}
+time_{pd} = time_{out\_*\_threshold} - time_{in\_*\_threshold}
 ```
 
 **Note:**  
 - Rise delay of a cell implies delay when output is rising and fall delay implies delay when output is falling
 - If delay thresholds are not properly chosen, one can see negative delay values. Care should be taken in determining thresholds.
 
-   #### Switching margin:
+#### Switching margin:
    
-   Switching margin (`V_m`) is the output voltage of a circuit when it is equal to the input voltage.
+ Switching margin (`Vm`) is the output voltage of a circuit when it is equal to the input voltage.
+ 
+ ### 16 mask CMOS farication process:
+ 
+ CMOS fabrication is a highly detailed process involving several process and steps. These are described in brief below:
+ 
+ #### Processes:
+ 
+ - **Substrate preparation**: The process starts with a single-crystal silicon wafer, which is polished to remove any impurities and smooth out the surface.
+
+ - **Oxidation**: The wafer is then heated in an oxygen-rich environment to grow a thin layer of silicon dioxide (SiO2) on the surface. This layer serves as an insulating layer.
+ - **Photolithography**: A layer of photosensitive material called photoresist is applied on the oxide layer. The wafer is then exposed to UV light through a mask that defines the pattern of the CMOS circuitry.
+ - **Etching**: The exposed photoresist is chemically removed, leaving behind a pattern of exposed oxide on the wafer. The exposed oxide is then etched away using a chemical etchant, leaving a patterned oxide layer on the silicon.
+ - **Doping**: Different regions of the silicon are doped with impurities to create n-type or p-type regions, which form the source, drain, and channel regions of the transistors. This is done using a process called ion implantation.
+ - **Annealing**: The wafer is heated in a high-temperature furnace to activate the dopants and repair any damage caused by the fabrication process.
+ - **Deposition**: A thin layer of metal, usually aluminum or copper, is deposited on the wafer to form the interconnects between the transistors.
+ - **Planarization**: A chemical-mechanical polishing (CMP) process is used to remove any excess metal and oxide, leaving a flat surface.
+
+#### Detailed Steps:
+
+1. Substrate preparation
+2. Creation of active region for transistors:
+   a. Layer of SiO2 and Si3N4 is created over the wafer
+   b. Using photolithography and etching, Si3N4 is etched away from boundary of nMOS and pMOS regions.
+   c. SiO2 layer at boudaries is thickened using LOCOS (LOCal Oxidation of Silicon)
+   d. Remaining Si3N4 is removed using hot Phosphoric acid
+3. N-well and P-well formation
+   a. Using photolithography and ion-implantaion, impurities are added to selective sites of the substrate in order to create n-well and p-well
+   b. Chip is heated at hgh temperatures for well diffusion to occur. This deepens the well.
+4. Formation of Gate:
+   a. To ensure correct doping concenterations, diffused n-well/p-well is again doped using ion implantation. Correct doping concenteration is necessary to obtain correct threshold voltage
+   b. Layer of polysilicon is deposited over wafer. 
+   c. Using photolithography, poly is etched away from entire surface except from the sites of Gate formation.
+5. Lightly Doped Drain formation:
+6.  
+  
+
+
+ 
 
 
