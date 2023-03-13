@@ -66,8 +66,29 @@ OpenLANE is an open-source automated RTL-to-GDSII (register transfer level to gr
  package require openlane 0.9
  prep -design <design_name> -tag <name_of_run_dir>
  ```
+ <br>
+ This will invoke openLANE as shown below:  
  
  <p align="center"> <img src="/Images/Day-1/Labs/Invoking_openLANE.png"/></p>
+ 
+ ### Runnning synthesis
+ 
+ Synthesis can be run using following atomic command:
+  ```
+  run_synthesis
+  ```
+  <br>
+  run_synthesis generates teh netlist is <run_tag>/results/synthesis directory as shown below:
+  <p align="center"> <img src="/Images/Day-1/Labs/synthesis.png"/></p>
+  <br>
+  
+  ### Analyzing synthesis results
+  
+  We can examine the cell stats of synthesized run from reports present in <run_tag>/reports/synthesis/ directory.
+  Here, we have calculated flop ratio for the given design:
+  
+  <p align="center"> <img src="/Images/Day-1/Labs/synthesis.png"/></p>
+  
  
  
  
