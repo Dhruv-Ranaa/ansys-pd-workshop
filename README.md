@@ -95,43 +95,31 @@ OpenLANE is an open-source automated RTL-to-GDSII (register transfer level to gr
  
  **Target of floorplanning:** Lay down macros in suitable positions on the core based on timing and power considerations. For e.g., a macro frequently receivng data from input pins will be placed close to them as this will reduce delay and wire cap. All this needs to be done while leaving out sufficiently large contiguous blocks for standrad cell placement.
  
- ### Important terminology related to floorplanning
+ #### Important terminology related to floorplanning
  
- **Utilisation factor:** 
- Utilisation factor is defined as the ratio of area of netlist to the area of core of the die.
- It determines the total core area based on the area occupied by netlist and is an important factor for generating a good floorplan. Usually, it's value is kept close to 50%. This leaves substantial space in the core for CTS and ECO changes.  
+ **Utilisation factor:** Utilisation factor is defined as the ratio of area of netlist to the area of core of the die. Usually, it's value is kept close to 50%. This leaves substantial space in the core for CTS and ECO changes.  
  
- **Aspect ratio:**
- It is the ratio of height of the core to the width of the core.
- Aspect ratio determines the shape of a chip. Aspect ratio of 1 implies a square-shaped chip.
+ **Aspect ratio:** Aspect ratio is the ratio of height of the core to the width of the core. It determines the shape of a chip. Aspect ratio of 1 implies a square-shaped chip.
  
- **Pre-placed cells:**
- Pre-placed cells (PPCs) are cells that are placed in the core before the automated placement and routing process. 
- These cells usually consists of **foundry IPs** and their location is fixed during floorplanning. It is not altered by placement tool.
+ **Pre-placed cells:** Pre-placed cells (PPCs) are cells that are placed in the core before the automated placement and routing process. These cells usually consists of **foundry IPs** and their location is fixed during floorplanning. It is not altered by placement tool.
  
- **Decoupling capacitors:**
- Decoupling capacitors help reduce noise and improve power supply performance. They work by temporarily storing electrical charge and then releasing it back into the circuit when needed.
- Preplaced cells are surrounded by decoupling capacitors during floorplanning.
+ **Decoupling capacitors:** Decoupling capacitors help reduce noise and improve power supply performance. They work by temporarily storing electrical charge and then releasing it back into the circuit when needed. Preplaced cells are surrounded by decoupling capacitors during floorplanning.
  
  ### What is powerplanning?
  **Power planning** is done to ensure that each block of the chip has access to a stable and reliable power supply. Power and ground pin locations are determined.
  
- ### Importnant terinology related to powerplanning
+ #### Importnant terminology related to powerplanning
  
- **Voltage drop:**
- Voltage drop is an incident wherein power supplied at an instance's power pin can fall below supply voltage because to intervening RC circuit. 
- If this drop is large, it can cross **noise margins** of the standard cell and impact correct funtioning of the chip.
+ **Voltage drop:** Voltage drop is an incident wherein power supplied at an instance's power pin can fall below supply voltage because to intervening RC circuit. If this drop is large, it can cross **noise margins** of the standard cell and impact correct funtioning of the chip.
  
- **Ground bounce:**
- Ground bound is an incident wherein voltage at the ground pin of an instance can jump above 0V. 
- Ground bounces can cause similar throw a cell off its noise margins and impact correct functioning of the chip.
+ **Ground bounce:** Ground bound is an incident wherein voltage at the ground pin of an instance can jump above 0V. Ground bounces can cause similar throw a cell off its noise margins and impact correct functioning of the chip.
  
  Good powerplanning reduced the chances of voltage drop and ground bounce.
  
  ### What is placement?
  **Placement** is the process of assigning fixed locations to standard cells on the chip.  
  
- ### Factors determing good placement
+ #### Factors determing good placement
  
  The main goal of placement is to keep connected cells close to each other and also close to connected I/O ports.  
  This helps reduce wire cap during routing, which makes the circuit faster as well as reduces its power consumption. Shorter connections also help preserve signal integrity better.
