@@ -374,8 +374,8 @@ Timing requirements can mainly be required in two categories:
 <p align="center">       $\theta$ = total delay in combinational circuit</p>
 <p align="center">       S = Setup time of capture flop</p>
 <p align="center">       SU = Uncertainity of clock time period for setup analysis</p>
-<p align="center">       \delta_{launch} = Delay from clock port to clock pin of launch flop</p>
-<p align="center">       \delta_{capture} = Delay from clock port to clock pin of capture flop</p>
+<p align="center">       $\delta_{launch}$ = Delay from clock port to clock pin of launch flop</p>
+<p align="center">       $\delta_{capture}$ = Delay from clock port to clock pin of capture flop</p>
 
 - **Slack**, defined as difference between data required time and data arrival time at capture flop must always be positive.
 
@@ -398,8 +398,8 @@ Timing requirements can mainly be required in two categories:
 <p align="center">where, H = Hold time of capture flop</p>
 <p align="center">       $\theta$ = total delay in combinational circuit</p>
 <p align="center">       HU = Hold uncertainity</p>
-<p align="center">       \delta_{launch} = Delay from clock port to clock pin of launch flop</p>
-<p align="center">       \delta_{capture} = Delay from clock port to clock pin of capture flop</p>
+<p align="center">       $\delta_{launch}$ = Delay from clock port to clock pin of launch flop</p>
+<p align="center">       $\delta_{capture}$ = Delay from clock port to clock pin of capture flop</p>
 
 - **Slack**, defined as difference between data arrival time and data required time at capture flop must always be positive.
 
