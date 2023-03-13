@@ -279,37 +279,35 @@ CMOS fabrication is heavily dependent on UV photolithography. The wavelength of 
 
 ### Part-1 | CMOS inverter SPICE extraction and characterization
 
-<p align="center">sky130_inv Layout (as viewed in Magic</p>
+<p align="center">sky130_inv Layout (as viewed in Magic)</p>
 <p align="center"><img src="/Images/Day-3/Labs/cmos_inv.png"/></p>
 
-Use following commands in magic to extract SPICE netlist from CMOS inverter layout (.mag file):
-
+- Use following commands in magic to extract SPICE netlist from CMOS inverter layout (.mag file):
 ```
 extract all
 ext2spice cthresh 0 rthresh 0
 ext2spice
-```           
+```
+Extracted netlist looks like this:
 <p align="center"><img src="/Images/Day-3/Labs/spice_extraction.png"/></p>
+<br>
 
-Modify the SPICE netlist as shown in figure below and run using command:
-
+- Modify the SPICE netlist as shown in figure below, and run SPICE simulation using command:
 ```
 ngspice <path_to_spice_file>
 ```
-
 <p align="center"><img src="/Images/Day-3/Labs/spice_run.png"/></p>
+<br>
 
-Use the following commands in ngspice to view simulation results:
-
+- Use the following commands in ngspice to view simulation results:
 ```
 setplot tran1
 display
 plot y vs time a vs time
 ```
-
 Simulation output looks as follows:
-
 <p align="center"><img src="/Images/Day-3/Labs/sim_output.png"/></p>
+<br>
 
  
 
