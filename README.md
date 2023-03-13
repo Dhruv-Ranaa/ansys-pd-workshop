@@ -221,32 +221,20 @@ time_{pd} = time_{out\_*\_threshold} - time_{in\_*\_threshold}
    
  Switching margin (`Vm`) is the output voltage of a circuit when it is equal to the input voltage.
  
- ### 16 mask CMOS farication process:
+ ### Part-2 | 16 mask CMOS farication process:
  
  CMOS fabrication is a highly detailed process involving several process and steps. These are described in brief below:
  
- #### Processes:
- 
- - **Substrate preparation**: The process starts with a single-crystal silicon wafer, which is polished to remove any impurities and smooth out the surface.
-
- - **Oxidation**: The wafer is then heated in an oxygen-rich environment to grow a thin layer of silicon dioxide (SiO2) on the surface. This layer serves as an insulating layer.
- - **Photolithography**: A layer of photosensitive material called photoresist is applied on the oxide layer. The wafer is then exposed to UV light through a mask that defines the pattern of the CMOS circuitry.
- - **Etching**: The exposed photoresist is chemically removed, leaving behind a pattern of exposed oxide on the wafer. The exposed oxide is then etched away using a chemical etchant, leaving a patterned oxide layer on the silicon.
- - **Doping**: Different regions of the silicon are doped with impurities to create n-type or p-type regions, which form the source, drain, and channel regions of the transistors. This is done using a process called ion implantation.
- - **Annealing**: The wafer is heated in a high-temperature furnace to activate the dopants and repair any damage caused by the fabrication process.
- - **Deposition**: A thin layer of metal, usually aluminum or copper, is deposited on the wafer to form the interconnects between the transistors.
- - **Planarization**: A chemical-mechanical polishing (CMP) process is used to remove any excess metal and oxide, leaving a flat surface.
-
-#### Detailed Steps:
+#### Steps:
 
 1. Substrate preparation
 2. Creation of active region for transistors:
    - Layer of SiO2 and Si3N4 is created over the wafer
-   - Using photolithography and etching, Si3N4 is etched away from boundary of nMOS and pMOS regions.
+   - Using **photolithography** and **etching**, Si3N4 is etched away from boundary of nMOS and pMOS regions.
    - SiO2 layer at boudaries is thickened using **LOCOS (LOCal Oxidation of Silicon)**
    - Remaining Si3N4 is removed using hot Phosphoric acid
 3. N-well and P-well formation
-   - Using photolithography and ion-implantaion, impurities are added to selective sites of the substrate in order to create n-well and p-well
+   - Using **photolithography** and **ion-implantaion**, impurities are added to selective sites of the substrate in order to create n-well and p-well
    - Chip is heated at hgh temperatures for well diffusion to occur. This deepens the well.
 4. Formation of Gate:
    - To ensure correct doping concenterations, diffused n-well/p-well is again doped using ion implantation. Correct doping concenteration is necessary to obtain correct threshold voltage
@@ -259,12 +247,12 @@ time_{pd} = time_{out\_*\_threshold} - time_{in\_*\_threshold}
 6. Source and drain formation:
    - Thin layer of SiO2 (called screen oxide) is added to prevent channeling during through lightly doped regions during ion implantation.
    - Ion implnatation is done to make heavily doped source and drain regions
-   - Annealing is done is a high temperature furnace to push doping atoms deeper. 
+   - **Annealing** is done is a high temperature furnace to push doping atoms deeper. 
 7. Local Interconnect (locali) formation:
    - Screen oxide is removed by etching with HF.
-   - Titanium is sputtered over the wafer, which is heated to 650-700 celsius in N2 ambient
+   - Titanium is **sputtered** over the wafer, which is heated to 650-700 celsius in N2 ambient
    - TiSi2 is formed where Ti in in touch with Silicon. Layer of TiN2 is formed above it.
-   - Using photolithography and RCA based selective etching, excess TiN2 is removed till only TiN2 local interconnects are left.
+   - Using photolithography and **RCA based selective etching**, excess TiN2 is removed till only TiN2 local interconnects are left.
 8. Higher level metal formation:
    - Non-planar surface is not suitable for metal deposition.
    - Wafer is covered with **phosphosilicate glass** and polished using **Chemical Mechanical Polishing (CMP)**.
@@ -274,8 +262,54 @@ time_{pd} = time_{out\_*\_threshold} - time_{in\_*\_threshold}
    - Multiple layers of SiO2, TiN2, Tungsten and ALuminium are deposited and etched in a similar fashion to create higher metal layers.
    - Finally, chip is coated with Si3N4 for protection and holes are drilled to make final contacts of CMOS.
 
-<img src="/Images/Day-3/Theory/cmos_fabricated_final.png" alt="Final view of a CMOS fabricated using 16-mask process" />
+<br>
+<p align="center">Final view of a CMOS fabricated using 16-mask process</p>
+<p align="center"><img src="/Images/Day-3/Theory/cmos_fabricated_final.png"/></p>
+ 
+### Part-3 | CMOS inverter layout and DRC 
 
+**Design Rules** are constraints specified in PDK tech file. Sticking to these constraints is mandatory to ensure correct fabrication.
+
+**Why such constraints?**
+CMOS fabrication is heavily dependent on UV photolithography. The wavelength of UV light used imposes a physical contraint on the extent of size and spacing between different parts of the layout. Photolithography cannot be done on an object whose size is smaller than tha wavelength of UV light used.
+
+**Design Rule Check (DRC):** DRC is the process of testing final layout of the chip for any design rule violations. If found, these need to be corrected before tapeout.
+
+## Day-3 | Labs:
+
+### Part-1 | CMOS inverter SPICE extraction and characterization
+
+<p align="center">sky130_inv Layout (as viewed in Magic</p>
+<p align="center"><img src="/Images/Day-3/Labs/cmos_inv.png"/></p>
+
+Use following commands in magic to extract SPICE netlist from CMOS inverter layout (.mag file):
+
+```
+extract all
+ext2spice cthresh 0 rthresh 0
+ext2spice
+```           
+<p align="center"><img src="/Images/Day-3/Labs/spice_extraction.png"/></p>
+
+Modify the SPICE netlist as shown in figure below and run using command:
+
+```
+ngspice <path_to_spice_file>
+```
+
+<p align="center"><img src="/Images/Day-3/Labs/spice_run.png"/></p>
+
+Use the following commands in ngspice to view simulation results:
+
+```
+setplot tran1
+display
+plot y vs time a vs time
+```
+
+Simulation output looks as follows:
+
+<p align="center"><img src="/Images/Day-3/Labs/sim_output.png"/></p>
 
  
 
