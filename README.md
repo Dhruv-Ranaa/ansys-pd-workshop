@@ -7,7 +7,9 @@
   
 <br>
 <br>
-  
+ 
+
+
 ## Day-1: Inception | Theory
 
 ### Parts of a fabricated chip
@@ -493,3 +495,87 @@ run_cts
 
 ## Day-5: Routing | Theory
 
+### Introduction
+
+**Routing** is the process of drawing physical wires between connected pins of a netlist.
+
+An optimal routing is one having:
+1. Total minimum wire length
+2. Minimum bends in the wire connecting any two points
+
+### Routing algorithm | Lee's algorithm
+
+Based on minimizing Hamming distances. **Hamming distance** is another name given to checkboard distance between two points on a grid. Let $(x_0,y_0)$ and $(x_1,y_1)$ be two points on a grid, Then, hamming distance between them is defined as:
+```math
+hd_{0,1} = \lvert x_1 - x_0 \rvert + \lvert y_1 - y_0 \rvert
+```
+
+Basic explnataion of Lee's algorithm:
+1. Represent routing grid by a checkered box
+2. Run breath first search from source and find the shortest paths (measured in Hamming distance) connecting source pin to the target pin. A maze of adjacent cells is created in this part
+3. Among all the paths found, select one with minimum bends
+
+This is a simplified explanation. Lee's algorithm also deals with **obstructions** by excluding all paths going through the obstruction.
+
+### DRCs in routing
+
+Like other steps in the flow, design rule constraints are also applicable to routing. Some basic DRCs are:
+
+1. **Minimum wire width:** Wire width cannot go lower than this threshold
+2. **Minimum wire pitch:** Pitch is the perpendicular distance between *centers of* two parallel wires. Pitch has to be greater than the given threshold.
+3. **Minimum wire spacing:** Spacing is the length of gap between two parallel wires. It also cannot go arbitrarily low.
+4. **Minimum via width:** Vias are metal connections which join wires present in adjacent layers.
+5. **No signal shorting**
+
+### Power Distribution Network
+
+Power Distribution Network (PDN) is the network of wires which connect power and ground pins of each instance to the terminals of supply.
+
+It can take up several different geometries. Usually the the flow of power happens in this fashion:  
+Pads => Ring => Straps => Rails => P/G pins
+
+### SPEF
+
+SPEF stands for **Standard Parasitics Exchange Format**. This file contains connectivity and parasitics information for all nets in a design. Parasitics are extracted from routed DEF using information from tech file.
+
+### Detailed Routing using TritonRoute
+
+Routing is done in two phases:
+1. **Global routing:** Routing guides are deterined in this part but no actual connections are made. **FastRoute** tool is used to perform global routing.
+2. **Detailed routing:** Routing guide info is read and actual wire connections to be laid down are derived from it **TritonRoute** is the tool used to perform detailed routing.
+
+#### TritonRoute
+
+- **Inputs:** LEF, DEF and preprocessed route guides
+- **Outputs:** Detailed routing with optimized wire length and via count
+- **Constraints:** Honouring route guides, connectivity constraints and DRC
+
+**Access Point:** Access point is an on-grid point on metal layer of route guide which is used to connect lower-layer segment, upper-layer segment, a pin or a port.
+**Access Point Clusters (APCs):** Union of access points connecting lower layer segment to upper layer segment
+
+**How TritonRoute works?:**
+
+It finds a **minimum spanning tree** reducing the cost of connecting Access Points.
+
+## Day-5 | Labs
+
+- In current openLANE flow (March-2023), ```gen_pdn``` is already performed during ```run_floorplan```. It need not be re-run.
+- Peform routing using the command ```run_routing```. Once routing is complete, you will see the routed DEF as shown below:
+
+<p align="center"><img src="/Images/Day-5/Labs/run_routing.png"/></p>
+
+<p align="center"><img src="/Images/Day-5/Labs/routed_def.png"/></p>
+
+- Generated SPEF is shown below. This can be read in by STA flow to perform sign-off level STA.
+
+<p align="center"><img src="/Images/Day-5/Labs/spef.png"/></p>
+
+## Acknowledgements
+
+Sincere thanks to following people for organizing and conducting this Physical Design workshop:
+
+1. [Kunal Ghosh - Co-founder (VSD Corp. Pvt. Ltd)](https://github.com/kunalg123)
+2. [Nickson Jose - VSD VLSI Engineer](https://github.com/nickson-jose)
+3. Shivaraj Byru - Senior Manager Application Engineering, Ansys
+4. Dileesh Jostin - Senior Manager Application Engineering, Ansys
+ 
