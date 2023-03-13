@@ -424,6 +424,72 @@ In order to avoid glitches on clock nets due to crosstalk, they are surrounded b
 
 ## Day-4 | Labs
 
+### Part-1 | Converting layout to LEF
 
+- DRC checks on inverter. Grid height, width and I/O pin location should satisfy certain criterion as shown below:
 
+<p align="center"><img src="/Images/Day-4/Labs/inv_drc.png"/></p>
+
+- Port creation on layout:
+
+<p align="center"><img src="/Images/Day-4/Labs/port_creation.png"/></p>
+
+- Write lef:
+
+<p align="center"><img src="/Images/Day-4/Labs/write_lef.png"/></p>
+
+### Part-2 | Run synthesis and verify WNS and TNS using openSTA
+
+- Correct setup. CLOCK_PERIOD variable had different values in different files as shown below. Made them all equal to 12.00 ns so that errors/inconsistencies are avoided later.
+
+<p align="center"><img src="/Images/Day-4/Labs/clk_correction.png"/></p>
+
+- Run synthesis and verify our custom cell 'sky130_vsdinv' has been used in the netlist.
+
+<p align="center"><img src="/Images/Day-4/Labs/syn_new.png"/></p>
+
+### Part-3 | Reduce slack by changing run parameters
+
+- Change ::env(SYNTH_STRATEGY) and ::env(SYNTH_SIZING) and observed impact on slack. For me, TNS reduced from -3242.97 ps to -407.96ps; WNS reduced from -26.67ps to -5.59ps
+
+<p align="center"><img src="/Images/Day-4/Labs/reduce_slack1.png"/></p>
+
+- Do STA analysis using OpenSTA. Verify that WNS(Worst Negative Slack) and TNS (Total Negative Slack) match those reported after 'run_synthesis'.
+
+<p align="center"><img src="/Images/Day-4/Labs/open_sta1.png"/></p>
+
+- Change ::env(SYNTH_MAX_FANOUT) and observe reduction in slack:
+
+<p align="center"><img src="/Images/Day-4/Labs/reduce_slack2.png"/></p>
+
+### Part-4 | Reduce slack using ECO
+
+- Run openSTA. Replace cells showing large delay with their upsized verisons. Observe reduction in slack:
+
+<p align="center"><img src="/Images/Day-4/Labs/reduce_slack3_eco.png"/></p>
+
+- Reduce slack further by repeating ECO.
+
+<p align="center"><img src="/Images/Day-4/Labs/reduce_slack4_eco.png"/></p>
+
+### Part-5 | Check your custom cell in DEF
+
+- Run floorplan and placement. Check if your custom cell is present in DEF:
+
+<p align="center"><img src="/Images/Day-4/Labs/def_w_sky130_inv.png"/></p>
+
+### Part-6 | Run CTS
+
+- Run CTS. Use atomic command given below:
+```
+run_cts
+```
+<p align="center"><img src="/Images/Day-4/Labs/cts_run.png"/></p>
+
+- Perform STA analysis on typical corner using openROAD. Use cts.netlist.
+
+<p align="center"><img src="/Images/Day-4/Labs/cts_nl_sta.png"/></p>
+<br>
+
+## Day-5: Routing | Theory
 
