@@ -200,7 +200,7 @@ fall\_slew = time_{slew\_low\_fall\_threshold} - time_{slew\_high\_fall\_thresho
 
 Given this, propagation delay of a cell can be calulated using following formula:
 ```math
-time_{pd} = time_{out\_*\_threshold} - time_{in\_*\_threshold}
+t_{pd} = time_{out\_*\_threshold} - time_{in\_*\_threshold}
 ```
 
 **Note:**  
